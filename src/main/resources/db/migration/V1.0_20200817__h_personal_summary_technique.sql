@@ -1,0 +1,1 @@
+alter table h_personal_summary_technique add column source char(1) DEFAULT '0' COMMENT '来源 0:个人 1:csdn（爬虫） 默认是0' after answer;

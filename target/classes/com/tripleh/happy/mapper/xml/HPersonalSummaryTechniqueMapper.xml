@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tripleh.happyhappyhappy.com.tripleh.happy.mapper.HPersonalSummaryTechniqueDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, question_description, answer, source, status, refer_url, technique_id, create_time, create_name, update_time, update_name, del_flag
+    </sql>
+
+    <update id="updateById" parameterType="tripleh.happyhappyhappy.com.tripleh.happy.entity.HPersonalSummaryTechnique">
+        update h_personal_summary_technique
+        set question_description=#{questionDescription}, answer=#{answer}, source=#{source}, status=#{status},
+        technique_id=#{techniqueId}, update_time=now(), update_name='admin' where id=#{id} and del_flag='0'
+    </update>
+
+    <update id="delBatch" parameterType="java.lang.Long">
+        update h_personal_summary_technique set del_flag = '1', update_time=now(), update_name='admin'
+        where id in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>
