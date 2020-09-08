@@ -15,4 +15,11 @@ import tripleh.happyhappyhappy.com.tripleh.happy.entity.HTechnique;
 @Repository
 public interface HTechniqueDao extends BaseMapper<HTechnique> {
 
+    /**
+     * 删除技术分类
+     * @param id
+     * @return
+     */
+    int delById(Long id);
+
 }

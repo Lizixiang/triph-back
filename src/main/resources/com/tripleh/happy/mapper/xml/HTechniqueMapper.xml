@@ -7,4 +7,9 @@
         id, technique_name, nick_name, create_time, create_name, update_time, update_name, del_flag
     </sql>
 
+    <update id="delById" parameterType="java.lang.Long">
+        update h_technique set del_flag = '1', update_time=now(), update_name='admin'
+        where id = #{id}
+    </update>
+
 </mapper>

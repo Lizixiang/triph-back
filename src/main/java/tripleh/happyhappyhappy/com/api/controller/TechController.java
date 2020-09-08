@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tripleh.happyhappyhappy.com.api.enums.SourceEnum;
@@ -11,11 +12,17 @@ import tripleh.happyhappyhappy.com.api.enums.StatusEnum;
 import tripleh.happyhappyhappy.com.api.response.ResponseResult;
 import tripleh.happyhappyhappy.com.api.reuqest.HTecEditParams;
 import tripleh.happyhappyhappy.com.api.reuqest.HTecParams;
+import tripleh.happyhappyhappy.com.handler.ServiceException;
+import tripleh.happyhappyhappy.com.tripleh.happy.entity.HTechnique;
 import tripleh.happyhappyhappy.com.tripleh.happy.service.IHPersonalSummaryTechniqueService;
 import tripleh.happyhappyhappy.com.tripleh.happy.service.IHTechniqueService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +52,15 @@ public class TechController {
     @ApiOperation(value = "个人技术列表下拉框数据", httpMethod = "GET")
     public Map initOption() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("cateOption", ihTechniqueService.queryAllTech()); //分类
+        List<HTechnique> hTechniques = ihTechniqueService.queryAllTech();
+        ArrayList<Map<String, String>> list = new ArrayList<>();
+        for (HTechnique hTechnique : hTechniques) {
+            HashMap<String, String> map1 = new HashMap<>();
+            map1.put("text", hTechnique.getTechniqueName());
+            map1.put("value", hTechnique.getId().toString());
+            list.add(map1);
+        }
+        map.put("cateOption", list); //分类
         map.put("sourceOption", SourceEnum.getAll()); //来源
         map.put("statusOption", StatusEnum.getAll()); //状态
         return map;
@@ -58,6 +73,7 @@ public class TechController {
     @PostMapping("/data/get")
     @ApiOperation(value = "个人技术列表数据", httpMethod = "POST")
     public Object getData(@RequestBody HTecParams hTecParams) {
+        log.info("getData and hTecParams:{}", hTecParams);
         Page page = ihPersonalSummaryTechniqueService.page(hTecParams.getIPage(), hTecParams.getWrapper());
         return page;
     }
@@ -81,6 +97,48 @@ public class TechController {
     @ApiOperation(value = "删除个人技术", httpMethod = "GET")
     public ResponseResult delete(@PathVariable String ids) {
         ihPersonalSummaryTechniqueService.delBatch(ids);
+        return ResponseResult.SUCCESS();
+    }
+
+    /**
+     * 技术分类列表
+     * @return
+     */
+    @PostMapping("/cate/get")
+    @ApiOperation(value = "技术分类列表", httpMethod = "POST")
+    public ResponseResult getCate(HttpServletRequest request, Principal principal) {
+        return ResponseResult.SUCCESS(ihTechniqueService.queryAllTech());
+    }
+
+    /**
+     * 删除技术分类
+     * @return
+     */
+    @GetMapping("/cate/del/{id}")
+    @ApiOperation(value = "删除技术分类", httpMethod = "GET")
+    public ResponseResult delCate(@PathVariable String id) {
+        log.info("delCate and id:{}", id);
+        if (ObjectUtils.isEmpty(id)) {
+            log.error("id is empty...");
+            throw new ServiceException("id is empty...");
+        }
+        ihTechniqueService.delCate(id);
+        return ResponseResult.SUCCESS();
+    }
+
+    /**
+     * 添加技术分类
+     * @return
+     */
+    @PostMapping("/cate/add")
+    @ApiOperation(value = "添加技术分类", httpMethod = "POST")
+    public ResponseResult addCate(String techniqueName, Principal principal) {
+        log.info("addCate and techniqueName:{}", techniqueName);
+        if (ObjectUtils.isEmpty(techniqueName)) {
+            log.error("techniqueName is empty...");
+            throw new ServiceException("参数为空");
+        }
+        ihTechniqueService.addCate(techniqueName.trim(), principal);
         return ResponseResult.SUCCESS();
     }
 

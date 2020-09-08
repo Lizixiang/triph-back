@@ -1,7 +1,5 @@
 package tripleh.happyhappyhappy.com.config;
 
-import lombok.Builder;
-import lombok.Data;
 import org.springframework.security.core.userdetails.User;
 import tripleh.happyhappyhappy.com.tripleh.happy.entity.HUser;
 

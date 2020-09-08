@@ -25,14 +25,15 @@ public interface ReptileService {
      * 捞取
      *
      * @param ids mongodb id集合
+     * @param techId    技术分类id
      * @return
      */
-    int gain(@PathVariable String ids);
+    int gain(String ids, String techId);
 
     /**
      * 删除
      * @param ids mongodb id集合
      * @return
      */
-    int del(@PathVariable String ids);
+    int del(String ids);
 }

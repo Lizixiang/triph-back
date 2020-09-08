@@ -45,8 +45,8 @@ public class ReptileController {
      */
     @GetMapping("/data/gain/{ids}")
     @ApiOperation(value = "捞取", httpMethod = "POST")
-    public ResponseResult gain(@PathVariable String ids) {
-        int gain = reptileService.gain(ids);
+    public ResponseResult gain(@PathVariable String ids, String techId) {
+        int gain = reptileService.gain(ids, techId);
         return ResponseResult.SUCCESS();
     }
 
