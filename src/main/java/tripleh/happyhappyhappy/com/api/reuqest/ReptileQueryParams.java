@@ -29,7 +29,7 @@ public class ReptileQueryParams extends PageFactory {
     private String title;
 
     @ApiModelProperty("状态")
-    private int status;
+    private String status;
 
     @ApiModelProperty("开始时间")
 //    @JsonFormat(shape= JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
@@ -50,8 +50,8 @@ public class ReptileQueryParams extends PageFactory {
         if (ObjectUtils.isNotEmpty(title)) {
             query.addCriteria(Criteria.where("title").regex(".*?" + title + ".*?"));
         }
-        if (ObjectUtils.isNotEmpty(status) && status != 0) {
-            query.addCriteria(Criteria.where("status").is(status));
+        if (ObjectUtils.isNotEmpty(status)) {
+            query.addCriteria(Criteria.where("status").is(Integer.parseInt(status)));
         }
         if (ObjectUtils.isNotEmpty(startTime) && ObjectUtils.isNotEmpty(endTime)) {
             query.addCriteria(Criteria.where("createTime").gte(startTime).lte(endTime));
@@ -72,8 +72,8 @@ public class ReptileQueryParams extends PageFactory {
         if (ObjectUtils.isNotEmpty(title)) {
             query.addCriteria(Criteria.where("title").regex(".*?" + title + ".*?"));
         }
-        if (ObjectUtils.isNotEmpty(status) && status != 0) {
-            query.addCriteria(Criteria.where("status").is(status));
+        if (ObjectUtils.isNotEmpty(status)) {
+            query.addCriteria(Criteria.where("status").is(Integer.parseInt(status)));
         }
         if (ObjectUtils.isNotEmpty(startTime) && ObjectUtils.isNotEmpty(endTime)) {
             query.addCriteria(Criteria.where("createTime").gte(startTime).lte(endTime));

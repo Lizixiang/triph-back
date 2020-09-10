@@ -61,4 +61,15 @@ public class ReptileController {
         reptileService.del(ids);
         return ResponseResult.SUCCESS();
     }
+
+    /**
+     * 查询热词
+     *
+     * @return
+     */
+    @GetMapping("/hotword/get")
+    @ApiOperation(value = "查询热词", httpMethod = "GET")
+    public ResponseResult queryHotWord() {
+        return ResponseResult.SUCCESS(reptileService.queryHotWord());
+    }
 }

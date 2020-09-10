@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import tripleh.happyhappyhappy.com.api.reuqest.ReptileQueryParams;
 import tripleh.happyhappyhappy.com.tripleh.happy.entity.mongodto.FilterSite;
+import tripleh.happyhappyhappy.com.tripleh.happy.entity.mongodto.HotWord;
+
+import java.util.List;
 
 /**
  * Author: zixli
@@ -36,4 +39,10 @@ public interface ReptileService {
      * @return
      */
     int del(String ids);
+
+    /**
+     * 获取热词
+     * @return
+     */
+     List<HotWord> queryHotWord();
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,6 +16,7 @@ import tripleh.happyhappyhappy.com.handler.ServiceException;
 import tripleh.happyhappyhappy.com.tripleh.happy.entity.HPersonalSummaryTechnique;
 import tripleh.happyhappyhappy.com.tripleh.happy.entity.HTechnique;
 import tripleh.happyhappyhappy.com.tripleh.happy.entity.mongodto.FilterSite;
+import tripleh.happyhappyhappy.com.tripleh.happy.entity.mongodto.HotWord;
 import tripleh.happyhappyhappy.com.tripleh.happy.service.IHPersonalSummaryTechniqueService;
 import tripleh.happyhappyhappy.com.tripleh.happy.service.IHTechniqueService;
 import tripleh.happyhappyhappy.com.tripleh.happy.service.ReptileService;
@@ -63,7 +65,7 @@ public class ReptileServiceImpl implements ReptileService {
         query.addCriteria(Criteria.where("id").in(ids.split(",")));
         query.addCriteria(Criteria.where("status").is(0));
         List<FilterSite> filterSites = mongoTemplate.find(query, FilterSite.class);
-        log.info("filterSites:{}", filterSites);
+//        log.info("filterSites:{}", filterSites);
         if (ObjectUtils.isNotEmpty(filterSites)) {
             List<HPersonalSummaryTechnique> list = new ArrayList<>();
             for (FilterSite filterSite : filterSites) {
@@ -100,7 +102,17 @@ public class ReptileServiceImpl implements ReptileService {
         query.addCriteria(Criteria.where("id").in(ids.split(",")));
         query.addCriteria(Criteria.where("status").is(0));
         List<FilterSite> allAndRemove = mongoTemplate.findAllAndRemove(query, FilterSite.class);
-        log.info("allAndRemove:{}", allAndRemove);
+//        log.info("allAndRemove:{}", allAndRemove);
         return allAndRemove.size();
+    }
+
+    @Override
+    public List<HotWord> queryHotWord() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("year").is(LocalDateTime.now().getYear()));
+        query.addCriteria(Criteria.where("status").is(0));
+        query.with(Sort.by(Sort.Order.desc("count"))).limit(10);
+        List<HotWord> hotWords = mongoTemplate.find(query, HotWord.class);
+        return hotWords;
     }
 }
