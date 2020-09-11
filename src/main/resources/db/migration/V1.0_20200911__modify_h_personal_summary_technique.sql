@@ -1,0 +1,1 @@
+alter table h_personal_summary_technique modify answer mediumtext null comment '解决方案';
