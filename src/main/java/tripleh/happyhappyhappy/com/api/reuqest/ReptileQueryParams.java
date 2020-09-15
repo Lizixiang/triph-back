@@ -59,7 +59,7 @@ public class ReptileQueryParams extends PageFactory {
         if (ObjectUtils.isNotEmpty(getCurrent()) && ObjectUtils.isNotEmpty(getSize())) {
             query.with(PageRequest.of(getCurrent(), getSize()));
         }
-        query.with(Sort.by(Sort.Order.desc("createTime")));
+        query.with(Sort.by(Sort.Order.asc("createTime")));
         return query;
     }
 
