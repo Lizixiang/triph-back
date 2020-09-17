@@ -120,18 +120,6 @@
             <version>2.11.0</version>
         </dependency>
 
-        <!-- 注意是starter,自动配置 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <!-- 不是starter,手动配置 -->
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-            <!-- 指明版本，解决redis存储出现的问题：java.lang.NoSuchMethodError: org.springframework.data.redis.connection.RedisConnection.set([B[B)V问题 -->
-            <version>2.3.3.RELEASE</version>
-        </dependency>
         <!-- 将token存储在redis中 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

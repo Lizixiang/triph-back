@@ -87,6 +87,15 @@ public class ResponseResult {
 
     /**
      * 操作失败
+     * @param commonResultCode
+     * @return
+     */
+    public static ResponseResult FAIL(CommonResultCode commonResultCode) {
+        return new ResponseResult(commonResultCode.isSuccess(), commonResultCode.getCode(), commonResultCode.getMessage(), null);
+    }
+
+    /**
+     * 操作失败
      * @param resultCode
      * @param msg
      * @return
