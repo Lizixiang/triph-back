@@ -34,7 +34,7 @@ public class SecurityGlobalInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 开发环境无需安全拦截，方便调试
-        if ("dev".equals(springContextUtil.getActiveProfile())) return true;
+        if ("dev".equals(springContextUtil.getActiveProfile()) || "test".equals(springContextUtil.getActiveProfile())) return true;
         String secretKey = request.getHeader(RedisKeyConstant.SECURITY_KEY);
         if (StringUtils.isNotBlank(secretKey)) {
             String secret = (String) redisUUID.get(RedisKeyConstant.SECURITY_KEY);

@@ -146,6 +146,12 @@
             <version>2.2.3.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>nacos-config-spring-boot-starter</artifactId>
+            <version>0.2.7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
